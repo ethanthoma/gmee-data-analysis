@@ -20,7 +20,7 @@ merge_columns <- dropped_df %>%
 
 # Tidy the data
 df <- dropped_df %>%
-  filter(AssignmentStatus == "Approved") %>%
+  filter(AssignmentStatus != "Rejected") %>%
   group_by(HITId, WorkerId) %>%
   pivot_longer(
     cols = starts_with("Answer."),
@@ -118,7 +118,7 @@ manual_data <- df %>%
   column_to_rownames("row_name")
 
 # Read in the automatic evaluation data
-raw_auto_data <- read.csv("\\wsl.localhost\Debian\home\ethanthoma\projects\gmee-data-analysis\automatic_evaluation.csv")
+raw_auto_data <- read.csv("//wsl.localhost/Debian/home/ethanthoma/projects/gmee-data-analysis/automatic_evaluation.csv")
 
 automatic_data <- raw_auto_data %>%
   column_to_rownames("Model.Name") %>%
