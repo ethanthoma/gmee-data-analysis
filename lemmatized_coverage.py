@@ -1,19 +1,9 @@
+import pandas as pd
 import spacy
 import json
 
-# Load the English language model for spacy
-nlp = spacy.load('en_core_web_trf')
-
-# Load in content words
-file_path = ''
-
-with open(file_path, 'r') as json_file:
-    # Load content words
-    content_words = json.load(json_file)
-
-    # Lemmatize content words
-    with nlp.select_pipes(enable=['tok2vec', 'tagger', 'attribute_ruler', 'lemmatizer']):
-        content_words_doc = nlp(' '.join([word for word in content_words]))
+# Load context words from CSV
+context_words = pd.read_csv('lemmatized_content_words.csv')
 
 # Load in sentences
 root = '../generative-model-extrinsic-eval/experiments/generated_sentences/'
@@ -21,6 +11,9 @@ type = '-train-WITH-choicewords-noquestionwordlimit.json'
 models = [
     't0_3b'
     ]
+
+# Load the English language model for spacy
+nlp = spacy.load('en_core_web_trf')
 
 for model in models:
     file_path = root + model + type

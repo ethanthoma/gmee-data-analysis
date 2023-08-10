@@ -4,8 +4,7 @@ library(tidyverse)
 # Set seed for reproducibility
 set.seed(26-07-2023)
 
-# Get tidy manual data
-get_manual_data <- function (file_path) {
+impute_data <- function (file_path) {
   # Read in raw mturk data
   raw_df <- read.csv(file_path)
 
@@ -94,8 +93,13 @@ get_manual_data <- function (file_path) {
     }
   }
 
+  return(df)
+}
+
+# Get tidy manual data
+get_manual_data <- function (file_path) {
   # Reorganize data for the models
-  df %>%
+  impute_data(file_path) %>%
     select(starts_with("Answer.")) %>%
     rename_with(~ gsub("^Answer\\.", "", .), starts_with("Answer.")) %>%
     pivot_longer(
@@ -118,3 +122,7 @@ get_manual_data <- function (file_path) {
     column_to_rownames("row_name") %>%
     return
 }
+
+manual_data_file_path <- "//wsl.localhost/Debian/home/ethanthoma/projects/generative-model-extrinsic-eval/commongen_validation_test_set_generation/mturk_batches/sandbox_env_internal_first_100_questions/Batch_387776_batch_results.csv"
+save_file_path <- "//wsl.localhost/Debian/home/ethanthoma/projects/gmee-data-analysis/data/manual_data.csv"
+impute_data(manual_data_file_path) %>% write.csv(file = save_file_path, row.names = FALSE)
