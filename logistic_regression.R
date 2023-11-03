@@ -28,6 +28,14 @@ get_automatic_data <- function (file_path) {
 automatic_data_file_path = "//wsl.localhost/Debian/home/ethanthoma/projects/gmee-data-analysis/automatic_evaluation.csv"
 automatic_data = get_automatic_data(automatic_data_file_path)
 
+file_path <- "//wsl.localhost/Debian/home/ethanthoma/projects/gmee-data-analysis/data/auto_data.csv"
+raw_auto_data <- read.csv(file_path)
+automatic_data <- raw_auto_data %>%
+  select(Model.Name, Coverage.for.correct.answers..generations, Average.Complexity, Average.Coverage) %>%
+  drop_na %>%
+  column_to_rownames("Model.Name")
+
+
 # Merge both metric types
 model_data <- automatic_data %>%
   rownames_to_column("Model") %>%

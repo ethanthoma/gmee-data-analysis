@@ -59,3 +59,4 @@ batch_two_score <- tidy_df %>%
 
 cat(sprintf("First batch score is: %f\n", batch_one_score))
 cat(sprintf("Second batch score is: %f\n", batch_two_score))
+cat(sprintf("Average score is: %f\n", mean(batch_one_score + batch_two_score)))
